@@ -1,5 +1,8 @@
-# 基础
+# 项目用途
+封装了Excel POI的接口，可以将 Excel 中的每一行转换为对应的 Bean，也可以将 List 直接输出为 Excel。
 
+# 使用方法
+## 基础
 首先引入 java 依赖：
 
 ```xml
@@ -38,7 +41,7 @@ public class ClassMate {
 
 
 
-# 简单的导入
+## 简单的导入
 
 调用 ExcelUtil.read 来读取数据， `ExcelUtil` 会自动识别 `xls` 和 `xlsx` 格式。
 
@@ -64,7 +67,7 @@ Collection<ClassMate> list = util.firstHeader(false).read(ClassMate.class, "/pat
 List<Map<Integer,Object>> data = util.read(new FileInputStream("/path/to/classmates.xlsx"));
 ```
 
-# 多sheet页导入
+## 多sheet页导入
 
 可以指定读取某一个 sheet 页的数据
 
@@ -91,7 +94,7 @@ new ExcelUtil().readEachSheet(ClassMate.class, inputStream, new Consumer<ClassMa
 
 
 
-# 简单的导出
+## 简单的导出
 
 调用 ExcelUtil.write 来导出 excel， `ExcelUtil` 会自动识别路径中的 `xls` 和 `xlsx` 格式。
 
