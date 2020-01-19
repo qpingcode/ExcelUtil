@@ -138,7 +138,7 @@ sheet.addMergedRegion(cellRange);
 
 
 
-## 实现：ExcelDiv 和 ComplexUtil 的使用
+## 实现：ExcelDiv 和 ComplexUtil 的使用示例
 
 ![image-20190625214920782](.assets/image-20190625214920782.png)
 
@@ -205,4 +205,19 @@ ExcelDiv complexHeader = ComplexUtil.vertical(title, longDiv);
 ``` java
 ComplexUtil.draw(new FileOutputStream(new File("/path/to/1.xls")), complexHeader);
 ```
+
+
+
+## 方法说明：
+
+ExcelDiv.create(width, height)  // 构建一个小放开
+
+| 方法                                           | 说明                                                         |
+| ---------------------------------------------- | ------------------------------------------------------------ |
+| ExcelDiv.create(width, height)                 | 构建一个方块                                                 |
+| .merge(beginRow,beginCol,endRow,endCol,remark) | 合并单元格,从开始坐标到结束坐标间合并                        |
+| .merge(remark)                                 | 合并当前方块                                                 |
+| .cell(row, col, remark)                        | 指定某个坐标的单元格内容                                     |
+| .cell(remark)                                  | 在当前方块内，指定单元格内容。第一个次执行时指定第一行第一列的单元格。第二次执行时指定第一行第二列的单元格。每次执列索引+1 |
+| .append(excelDiv, direction)                   | 在右边或者下边追加一个方块。新方块的高度等于两者高度相加，宽度等于两者宽度相加。direction可选值 10 或者 20，分别代表右侧或者下方 |
 
