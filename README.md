@@ -175,11 +175,11 @@ ExcelDiv orgDiv = ExcelDiv.create(1, 3).merge("工作单位");
 list.add(orgDiv);
 
 for(String name : nameArr){
-		ExcelDiv div = ExcelDiv.create(2,3)
-                .merge(0, 0, 1,1, name)
-                .cell(2, 0, "应得")
-                .cell(2, 1, "实得");         
-		list.add(div);
+    ExcelDiv div = ExcelDiv.create(2,3)
+            .merge(0, 0, 1,1, name)
+            .cell(2, 0, "应得")
+            .cell(2, 1, "实得");         
+    list.add(div);
 }
 ExcelDiv longDiv = ComplexUtil.horizontal(list);
 
