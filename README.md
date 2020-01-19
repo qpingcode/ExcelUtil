@@ -138,7 +138,7 @@ sheet.addMergedRegion(cellRange);
 
 
 
-## 实现：HeaderDiv 和 ComplexUtil 的使用
+## 实现：ExcelDiv 和 ComplexUtil 的使用
 
 ![image-20190625214920782](.assets/image-20190625214920782.png)
 
@@ -148,15 +148,15 @@ sheet.addMergedRegion(cellRange);
 
 ``` java
 int width = 2, height = 3;
-HeaderDiv div = HeaderDiv.create(width, height);
+ExcelDiv div = ExcelDiv.create(width, height);
 ```
 
-![image-20190625220220160](.assets/image-20190625220220160.png)
+![image-20190625220220160](.assets/Jietu20200119-101603.jpg)
 
 上面这个方块，可以分为一个合并单元格和两个小单元格组成。
 
 ``` java
-HeaderDiv measure = HeaderDiv.create(2,3)
+ExcelDiv measure = ExcelDiv.create(2,3)
                 .merge(0, 0, 1, 1, "党建工作")
                 .cell(2, 0, "应得")
                 .cell(2, 1, "实得");
@@ -169,33 +169,33 @@ String[] nameArr = new String[]{
   "每日工作","卫生服务","健康管理","流动人口", "满意度评价","内部管理", "合计"
 };
 
-List<HeaderDiv> list = new ArrayList<>();
+List<ExcelDiv> list = new ArrayList<>();
 
-HeaderDiv orgDiv = HeaderDiv.create(1, 3).merge("工作单位");
+ExcelDiv orgDiv = ExcelDiv.create(1, 3).merge("工作单位");
 list.add(orgDiv);
 
 for(String name : nameArr){
-		HeaderDiv div = HeaderDiv.create(2,3)
+		ExcelDiv div = ExcelDiv.create(2,3)
                 .merge(0, 0, 1,1, name)
                 .cell(2, 0, "应得")
                 .cell(2, 1, "实得");         
 		list.add(div);
 }
-HeaderDiv longDiv = ComplexUtil.horizontal(list);
+ExcelDiv longDiv = ComplexUtil.horizontal(list);
 
 ```
 
 
 
-![image-20190625220919824](.assets/image-20190625220919824.png)
+![image-20190625220919824](.assets/Jietu20200119-101303.jpg)
 
 这个很长的标题和下面的方块间是上下关系，通过 `ComplexUtil.vertical()` 可以将小方块上下合为一体，代码如下：
 
 ``` java
-HeaderDiv title = HeaderDiv.create(longDiv.getWidth(), 2)
+ExcelDiv title = ExcelDiv.create(longDiv.getWidth(), 2)
                 .merge("关于开展2018年第四季度综合目标完成情况考核的通知");
                 
-HeaderDiv complexHeader = ComplexUtil.vertical(title, longDiv);
+ExcelDiv complexHeader = ComplexUtil.vertical(title, longDiv);
 ```
 
 
