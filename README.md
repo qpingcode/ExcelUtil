@@ -210,8 +210,6 @@ ComplexUtil.draw(new FileOutputStream(new File("/path/to/1.xls")), complexHeader
 
 ## 方法说明：
 
-ExcelDiv.create(width, height)  // 构建一个小放开
-
 | 方法                                           | 说明                                                         |
 | ---------------------------------------------- | ------------------------------------------------------------ |
 | ExcelDiv.create(width, height)                 | 构建一个方块                                                 |
@@ -220,4 +218,12 @@ ExcelDiv.create(width, height)  // 构建一个小放开
 | .cell(row, col, remark)                        | 指定某个坐标的单元格内容                                     |
 | .cell(remark)                                  | 在当前方块内，指定单元格内容。第一个次执行时指定第一行第一列的单元格。第二次执行时指定第一行第二列的单元格。每次执列索引+1 |
 | .append(excelDiv, direction)                   | 在右边或者下边追加一个方块。新方块的高度等于两者高度相加，宽度等于两者宽度相加。direction可选值 10 或者 20，分别代表右侧或者下方 |
+
+静态方法
+
+| 方法                                     | 说明                                                         |
+| ---------------------------------------- | ------------------------------------------------------------ |
+| ComplexUtil.vertical(List\<ExcelDiv\>)   | 将多个方块垂直合并，新方块的高度等于所有方块高度的和，宽度等于所有方块宽度的和。 |
+| ComplexUtil.horizontal(List\<ExcelDiv\>) | 将多个方块水平合并，新方块的高度等于所有方块高度的和，宽度等于所有方块宽度的和。 |
+| ComplexUtil.draw(outputStream, ExcelDiv) | 将方块写入到输出流，生成excel                                |
 
