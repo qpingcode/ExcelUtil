@@ -23,7 +23,6 @@ import java.util.Map;
  * @Version 1.0
  **/
 @Data
-@Slf4j
 public class Config {
 
     public static final int ERROR_STRATE_BREAK = 1;     // stop when error
@@ -66,7 +65,7 @@ public class Config {
                 fileExt = "xlsx";
             }
         } catch (IOException e) {
-            log.error("load excel error!!!");
+            e.printStackTrace();
         }
     }
 

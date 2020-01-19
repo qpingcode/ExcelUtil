@@ -18,8 +18,6 @@ import java.util.*;
  * @Date 2019/5/9 17:11
  * @Version 1.0
  **/
-@Slf4j
-@Data
 public class ExcelUtil {
 
     private Config config = new Config();
@@ -62,8 +60,9 @@ public class ExcelUtil {
         writeHandler.write(config, outputStream, data, forceStringType);
     }
 
-    public <T> List<T> read(Class<T> clazz, String filePath) throws FileNotFoundException {
+    public <T> List<T> read(Class<T> clazz, String filePath) {
         try (FileInputStream fileInputStream = new FileInputStream(filePath)) {
+            System.out.println("123");
             return this.read(clazz, fileInputStream);
         } catch (IOException e) {
             e.printStackTrace();
@@ -73,10 +72,11 @@ public class ExcelUtil {
 
     public List<Map<Integer, Object>> read(InputStream inputStream) {
         config.initWorkbook(inputStream);
+        Sheet sheet = config.getWorkbook().getSheetAt(config.getSheetNo());
         return readHandler.transferSheetToMapList(
                 config.isFirstHeader(),
                 config.isDealMergeRegions(),
-                config.getWorkbook().getSheetAt(config.getSheetNo())
+                sheet
         );
     }
 
