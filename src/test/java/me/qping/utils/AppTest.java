@@ -27,30 +27,7 @@ public class AppTest {
     public void complexheaderExportTest() throws IOException {
 
 
-        Drug drug1 = new Drug();
-        drug1.setDrugName("泰诺");
-        drug1.setDrugPlatName("复方份麻美敏片");
-        drug1.setGeneralName("复方份麻美敏片");
-        drug1.setSpec("10g");
-
-
-        Drug drug2 = new Drug();
-        drug2.setDrugName("白加黑");
-        drug2.setDrugPlatName("氨酚伪麻美芬片");
-        drug2.setGeneralName("氨酚伪麻美芬片");
-        drug2.setSpec("12g/片");
-
-
-        Drug drug3 = new Drug();
-        drug3.setDrugName("阿莫西林胶囊");
-        drug3.setDrugPlatName("阿莫西林胶囊");
-        drug3.setGeneralName("阿莫西林胶囊");
-        drug3.setSpec("5g");
-
-        List<Drug> list = new ArrayList<>();
-        list.add(drug1);
-        list.add(drug2);
-        list.add(drug3);
+        List<Drug> drugList = getTestData();
 
         ExcelDiv excelDiv = ExcelDiv.create(4,3);
         excelDiv
@@ -60,50 +37,22 @@ public class AppTest {
                 .cell(2,2, "第三个")
                 .cell(2,3, "第四个");
 
-
-
         OutputStream outputStream = new ByteArrayOutputStream();
 
         // 简单导出
 //        new ExcelUtil().write(Drug.class, outputStream, list, "xlsx");
 
         // 复杂表头导出（带数据）
-        ComplexUtil.draw(outputStream, excelDiv, Drug.class, list, "xlsx", true);
-
-
+        ComplexUtil.draw(outputStream, excelDiv, Drug.class, drugList, "xlsx", true);
 
         ((ByteArrayOutputStream) outputStream).writeTo(new FileOutputStream("/Users/qping/test/2.xlsx"));
-
-
 
     }
 
     @Test
     public void complexheaderStyleTest() throws IOException {
 
-        Drug drug1 = new Drug();
-        drug1.setDrugName("泰诺");
-        drug1.setDrugPlatName("复方份麻美敏片");
-        drug1.setGeneralName("复方份麻美敏片");
-        drug1.setSpec("10g");
-
-        Drug drug2 = new Drug();
-        drug2.setDrugName("白加黑");
-        drug2.setDrugPlatName("氨酚伪麻美芬片");
-        drug2.setGeneralName("氨酚伪麻美芬片");
-        drug2.setSpec("12g/片");
-
-
-        Drug drug3 = new Drug();
-        drug3.setDrugName("阿莫西林胶囊");
-        drug3.setDrugPlatName("阿莫西林胶囊");
-        drug3.setGeneralName("阿莫西林胶囊");
-        drug3.setSpec("5g");
-
-        List<Drug> list = new ArrayList<>();
-        list.add(drug1);
-        list.add(drug2);
-        list.add(drug3);
+        List<Drug> drugList = getTestData();
 
         // 样式
         Style mergeStyle = StyleFactory.FONTBLOD_CENTER_WRAP_BORDER.copy().fontFamily("黑体").fontSize(30).backgroundColor(Color.yellow).width(100);
@@ -121,18 +70,42 @@ public class AppTest {
 
         OutputStream outputStream = new ByteArrayOutputStream();
 
-        // 简单导出
-//        new ExcelUtil().write(Drug.class, outputStream, list, "xlsx");
 
         // 复杂表头导出（带数据）
-        ComplexUtil.draw(outputStream, excelDiv, Drug.class, list, "xlsx", true);
-
+        ComplexUtil.draw(outputStream, excelDiv, Drug.class, drugList, "xlsx", true);
 
 
         ((ByteArrayOutputStream) outputStream).writeTo(new FileOutputStream("/Users/qping/test/2.xlsx"));
 
+    }
 
 
+    public List<Drug> getTestData(){
+        Drug drug1 = new Drug();
+        drug1.setDrugName("泰诺");
+        drug1.setDrugPlatName("复方份麻美敏片");
+        drug1.setGeneralName("复方份麻美敏片");
+        drug1.setSpec("10g");
+
+        Drug drug2 = new Drug();
+        drug2.setDrugName("白加黑");
+        drug2.setDrugPlatName("氨酚伪麻美芬片");
+        drug2.setGeneralName("氨酚伪麻美芬片");
+        drug2.setSpec("12g/片");
+
+
+        Drug drug3 = new Drug();
+        drug3.setDrugName("阿莫西林胶囊");
+        drug3.setDrugPlatName("阿莫西林胶囊");
+        drug3.setGeneralName("阿莫西林胶囊");
+        drug3.setSpec("5g");
+
+        List<Drug> list = new ArrayList<>();
+        list.add(drug1);
+        list.add(drug2);
+        list.add(drug3);
+
+        return list;
     }
 
 
