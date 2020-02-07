@@ -206,6 +206,15 @@ ExcelDiv complexHeader = ComplexUtil.vertical(title, longDiv);
 ComplexUtil.draw(new FileOutputStream(new File("/path/to/1.xls")), complexHeader);
 ```
 
+导出带数据的复杂表头方法：
+``` java
+ Clazz clazz = T.class;
+ List<T> data = ...;
+ String fileExt = "xlsx"; // 可选值 xlsx / xls
+ boolean needSimpleHeader = true;
+ ComplexUtil.draw(outputStream, complexHeader, clazz, data, "xlsx", needSimpleHeader);
+```
+
 
 
 ## 方法说明：
