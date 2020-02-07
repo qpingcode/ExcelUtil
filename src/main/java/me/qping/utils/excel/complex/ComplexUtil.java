@@ -3,6 +3,8 @@ package me.qping.utils.excel.complex;
 import lombok.extern.slf4j.Slf4j;
 import me.qping.utils.excel.common.Config;
 import me.qping.utils.excel.complex.self.*;
+import me.qping.utils.excel.handler.WriteHandler;
+import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.RegionUtil;
@@ -58,19 +60,57 @@ public class ComplexUtil {
         return vertical(excelDivs.toArray(array));
     }
 
+    public static <T> void draw(OutputStream outputStream, ExcelDiv complexHeader, Class<T> clazz, List<T> data, String ext, boolean needSimpleTitle){
+
+
+        Config config = new Config();
+        config.initWorkbook(ext);
+        config.init(clazz);
+
+        // 先画复杂表头
+        draw(config, complexHeader);
+
+        // 绘制数据
+        WriteHandler writeHandler = new WriteHandler();
+        writeHandler.write(config, data, true, needSimpleTitle, complexHeader.getHeight());
+
+        // 输出
+        try {
+            config.getWorkbook().write(outputStream);
+            config.getWorkbook().close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public static void draw(OutputStream outputStream, ExcelDiv complexHeader){
-
         Config config = new Config();
         config.initWorkbook("xls");
 
-        Workbook workbook = config.getWorkbook();
-        Sheet sheet = workbook.createSheet();
+        draw(config, complexHeader);
 
+        try {
+            config.getWorkbook().write(outputStream);
+            config.getWorkbook().close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void draw(Config config, ExcelDiv complexHeader){
+
+        Workbook workbook = config.getWorkbook();
+        Sheet sheet;
+        if(workbook.getNumberOfSheets() > 0){
+            sheet = workbook.getSheetAt(0);
+        }else{
+            sheet = workbook.createSheet();
+        }
 
         // 考虑到复杂表头一般不会占用太大的内容，所以每一个 row 都初始化，便于操作
         for(int i = 0; i < complexHeader.getHeight(); i++ ){
-            Row row = sheet.createRow(i);
+            sheet.createRow(i);
         }
 
         for(me.qping.utils.excel.complex.self.Cell cell : complexHeader.getCellList()){
@@ -133,11 +173,6 @@ public class ComplexUtil {
             sheet.getRow(row).setHeightInPoints(complexHeader.getRowHeightMap().get(row) );
         }
 
-        try {
-            workbook.write(outputStream);
-        } catch (IOException e) {
-            log.error("export excel error");
-        }
     }
 
 }

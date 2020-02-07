@@ -2,7 +2,10 @@ package me.qping.utils;
 
 import static org.junit.Assert.assertTrue;
 
+import me.qping.utils.bean.Drug;
 import me.qping.utils.excel.ExcelUtil;
+import me.qping.utils.excel.complex.ComplexUtil;
+import me.qping.utils.excel.complex.self.ExcelDiv;
 import org.junit.Test;
 
 import java.io.*;
@@ -46,9 +49,24 @@ public class AppTest {
         list.add(drug2);
         list.add(drug3);
 
+        ExcelDiv excelDiv = ExcelDiv.create(5,3);
+        excelDiv
+                .merge(0,0,1,4, "标题")
+                .cell(2,0, "111")
+                .cell(2,1, "222")
+                .cell(2,2, "333")
+                .cell(2,3, "444")
+                .cell(2,4, "555");
+
+
+
         OutputStream outputStream = new ByteArrayOutputStream();
 
-        new ExcelUtil().write(Drug.class, outputStream, list, "xlsx");
+//        new ExcelUtil().write(Drug.class, outputStream, list, "xlsx");
+
+        ComplexUtil.draw(outputStream, excelDiv, Drug.class, list, "xlsx", true);
+
+
 
         ((ByteArrayOutputStream) outputStream).writeTo(new FileOutputStream("/Users/qping/test/2.xlsx"));
 

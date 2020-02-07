@@ -1,4 +1,4 @@
-package me.qping.utils;
+package me.qping.utils.bean;
 
 import lombok.Data;
 import me.qping.utils.excel.anno.Excel;

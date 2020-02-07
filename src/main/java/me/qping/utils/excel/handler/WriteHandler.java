@@ -17,29 +17,50 @@ import java.util.Collection;
  **/
 @Slf4j
 public class WriteHandler {
-    public <T> void write(Config config, OutputStream outputStream, Collection<T> data, boolean forceStringType) {
-        Sheet sheet = config.getWorkbook().createSheet();
 
-        int rowIndex = -1;
+    public <T> void write(Config config, Collection<T> data, boolean forceStringType) {
+        write(config, data, forceStringType, true, 0);
+    }
+
+    /**
+     *
+     * @param config
+     * @param data
+     * @param forceStringType
+     * @param needTitle
+     * @param beginRow  从第几行开始导出，默认为0
+     * @param <T>
+     */
+    public <T> void write(Config config, Collection<T> data, boolean forceStringType, boolean needTitle, int beginRow) {
+        Workbook workbook = config.getWorkbook();
+
+        Sheet sheet;
+        if(workbook.getNumberOfSheets() > 0){
+            sheet = workbook.getSheetAt(0);
+        }else{
+            sheet = workbook.createSheet();
+        }
+
+        int rowIndex = beginRow < 0 ? 0 : beginRow;
 
         // 输出表头
-        int headerIndex = -1;
-        rowIndex++;
-        Row headerRow = sheet.createRow(rowIndex);
-        for(BeanField beanField : config.getBeanFields()){
+        if(needTitle){
+            Row headerRow = sheet.createRow(rowIndex);
 
-            if(beanField.getName() == null){
-                continue;
+            int headerCol = 0;
+            for(BeanField beanField : config.getBeanFields()){
+
+                if(beanField.getName() == null){
+                    continue;
+                }
+
+                Cell cell = headerRow.createCell(headerCol++);
+                cell.setCellValue(beanField.getName());
             }
-
-            headerIndex++;
-            Cell cell = headerRow.createCell(headerIndex);
-            cell.setCellValue(beanField.getName());
+            rowIndex++;
         }
 
         for(T rowData : data){
-            rowIndex++;
-
             Row row = sheet.createRow(rowIndex);
 
             int colIndex = -1;
@@ -60,8 +81,9 @@ public class WriteHandler {
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
-
             }
+
+            rowIndex++;
         }
 
         // 强制单元格格式为文本类型，防止导出后再导入报错
@@ -81,11 +103,6 @@ public class WriteHandler {
         }
 
 
-        try {
-            config.getWorkbook().write(outputStream);
-        } catch (IOException e) {
-            log.error("export excel error");
-        }
     }
 
 }

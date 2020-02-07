@@ -36,6 +36,6 @@ public class BeanField implements Comparable<BeanField>{
     @Override
     public int compareTo(BeanField o) {
         return this.sort == o.sort ? 0 :
-                this.sort > o.sort ? -1 : 1;
+                this.sort > o.sort ? 1 : -1;
     }
 }

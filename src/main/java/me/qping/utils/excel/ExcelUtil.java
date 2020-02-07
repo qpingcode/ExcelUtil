@@ -38,26 +38,28 @@ public class ExcelUtil {
         if(!file.exists()){
             file.getParentFile().mkdirs();
         }
-        this.write(clazz, new FileOutputStream(file), data, fileExt);
+        this.write(clazz, new FileOutputStream(file), data, fileExt, true);
 
-        try {
-            config.getWorkbook().close();
-        } catch (IOException e) {
-        }
     }
 
     public <T> void write(Class<T> clazz, OutputStream outputStream, Collection<T> data) {
-        this.write(clazz, outputStream, data, "xlsx");
-    }
-
-    public <T> void write(Class<T> clazz, OutputStream outputStream, Collection<T> data, String fileExt) {
         this.write(clazz, outputStream, data, "xlsx", true);
     }
 
-    public <T> void write(Class<T> clazz, OutputStream outputStream, Collection<T> data, String fileExt, boolean forceStringType) {
+    public <T> void write(Class<T> clazz, OutputStream outputStream, Collection<T> data, String fileExt) {
+        this.write(clazz, outputStream, data, fileExt, true);
+    }
+
+    private <T> void write(Class<T> clazz, OutputStream outputStream, Collection<T> data, String fileExt, boolean forceStringType) {
         config.init(clazz);
         config.initWorkbook(fileExt);
-        writeHandler.write(config, outputStream, data, forceStringType);
+        writeHandler.write(config, data, forceStringType);
+        try {
+            config.getWorkbook().write(outputStream);
+            config.getWorkbook().close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public <T> List<T> read(Class<T> clazz, String filePath) {
