@@ -132,11 +132,11 @@ public class Style {
             if(fontColor != null){
                 if(workbook instanceof HSSFWorkbook){
                     HSSFPalette palette = ((HSSFWorkbook)workbook).getCustomPalette();
-                    HSSFColor myColor = palette.findSimilarColor(backgroundColor.getRed(), backgroundColor.getGreen(), backgroundColor.getBlue());
+                    HSSFColor myColor = palette.findSimilarColor(fontColor.getRed(), fontColor.getGreen(), fontColor.getBlue());
                     ((HSSFFont)fontStyle).setColor(myColor.getIndex());
                 }
                 if(workbook instanceof XSSFWorkbook){
-                    XSSFColor myColor = new XSSFColor(backgroundColor);
+                    XSSFColor myColor = new XSSFColor(fontColor);
                     ((XSSFFont) fontStyle).setColor(myColor);
                 }
             }
