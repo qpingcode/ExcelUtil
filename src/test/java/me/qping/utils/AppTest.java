@@ -26,9 +26,15 @@ public class AppTest {
     @Test
     public void complexheaderExportTest() throws IOException {
 
-
+        // 测试数据
         List<Drug> drugList = getTestData();
 
+        OutputStream outputStream = new ByteArrayOutputStream();
+
+        // 简单导出
+//        new ExcelUtil().write(Drug.class, outputStream, list, "xlsx");
+
+        // 复杂表头导出（带数据）
         ExcelDiv excelDiv = ExcelDiv.create(4,3);
         excelDiv
                 .merge(0,0,1,3, "这是一个宽4高2的长标题")
@@ -37,12 +43,6 @@ public class AppTest {
                 .cell(2,2, "第三个")
                 .cell(2,3, "第四个");
 
-        OutputStream outputStream = new ByteArrayOutputStream();
-
-        // 简单导出
-//        new ExcelUtil().write(Drug.class, outputStream, list, "xlsx");
-
-        // 复杂表头导出（带数据）
         ComplexUtil.draw(outputStream, excelDiv, Drug.class, drugList, "xlsx", true);
 
         ((ByteArrayOutputStream) outputStream).writeTo(new FileOutputStream("/Users/qping/test/2.xlsx"));
@@ -52,11 +52,16 @@ public class AppTest {
     @Test
     public void complexheaderStyleTest() throws IOException {
 
+        // 测试数据
         List<Drug> drugList = getTestData();
 
         // 样式
         Style mergeStyle = StyleFactory.FONTBLOD_CENTER_WRAP_BORDER.copy().fontFamily("黑体").fontSize(30).backgroundColor(Color.yellow).width(100);
         Style cellStyle = StyleFactory.FONTBLOD_CENTER.copy().fontFamily("宋体").fontSize(13).fontColor(Color.red);
+
+        OutputStream outputStream = new ByteArrayOutputStream();
+
+        // 复杂表头导出（带数据）
 
         ExcelDiv excelDiv = ExcelDiv.create(4,3);
         excelDiv
@@ -66,17 +71,9 @@ public class AppTest {
                 .cell(2,2, "第三个", cellStyle)
                 .cell(2,3, "第四个", cellStyle);
 
-
-
-        OutputStream outputStream = new ByteArrayOutputStream();
-
-
-        // 复杂表头导出（带数据）
         ComplexUtil.draw(outputStream, excelDiv, Drug.class, drugList, "xlsx", true);
 
-
         ((ByteArrayOutputStream) outputStream).writeTo(new FileOutputStream("/Users/qping/test/2.xlsx"));
-
     }
 
 
