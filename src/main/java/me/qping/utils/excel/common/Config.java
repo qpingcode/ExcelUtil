@@ -29,8 +29,12 @@ public class Config {
     public static final int ERROR_STRATE_CONTINUE = 2;  // continue when error
 
     // global config
-    boolean firstHeader = true;
-    boolean dealMergeRegions = true;
+    int titleRow = -1;              // set title header no，default is -1 (means does not have header)(the first number is 0)
+    int DataRowBeginNumber = 0;     // set data begin row no，default is 0 (the first number is 0)
+
+    boolean mergeRegionsSeparate = true;        // 对于合并单元格的处理 拆开还是合并？
+    int mergeExampleColumnIndex = -1;           // 以某列为标准 (this first is 0)
+
     int errorStrategy = ERROR_STRATE_CONTINUE;
 
     // runtime config
@@ -89,8 +93,8 @@ public class Config {
 
         // read first row as title
         headers = new ArrayList<>();
-        if(firstHeader){
-            Row headerRow = sheet.getRow(0);
+        if(titleRow > -1){
+            Row headerRow = sheet.getRow(titleRow);
             int colNum = headerRow.getPhysicalNumberOfCells();
             for(int i = 0; i < colNum; i++){
                 Cell headerCell = headerRow.getCell(i);
@@ -125,6 +129,7 @@ public class Config {
             }
             field.setAccessible(true);
             BeanField beanField = new BeanField(field, excel);
+            beanField.setDateformat(excel.dateformat());
             beanFields.add(beanField);
         }
 

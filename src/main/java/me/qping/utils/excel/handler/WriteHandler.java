@@ -7,7 +7,9 @@ import org.apache.poi.ss.usermodel.*;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 
 /**
  * @ClassName WriteHandler
@@ -75,7 +77,13 @@ public class WriteHandler {
 
                 try {
                     Object valueObj = beanField.getField().get(rowData);
-                    String value = valueObj == null ? "" : valueObj.toString();
+                    String value = null;
+
+                    if(beanField.getDateformat() != null && valueObj instanceof Date){
+                        value = new SimpleDateFormat(beanField.getDateformat()).format(valueObj);
+                    }else{
+                        value = valueObj == null ? "" : valueObj.toString();
+                    }
                     Cell cell = row.createCell(colIndex);
                     cell.setCellValue(value);
                 } catch (IllegalAccessException e) {

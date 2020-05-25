@@ -3,7 +3,9 @@ package me.qping.utils.excel.handler;
 import lombok.extern.slf4j.Slf4j;
 import me.qping.utils.excel.common.BeanField;
 import me.qping.utils.excel.utils.Util;
-import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellRangeAddress;
 
 import java.lang.reflect.Field;
@@ -11,13 +13,14 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * @ClassName ReadHandler
+ * @ClassName ReadBigDataHandler
+ * @description 大数据页面读取工具
  * @Author qping
  * @Date 2019/5/15 03:04
  * @Version 1.0
  **/
 @Slf4j
-public class ReadHandler {
+public class BigReadHandler {
 
     public <T> List<T> transferSheetToBeanList(int dataRowBegin, Sheet sheet, Class<T> clazz, List<BeanField> beanFields) throws Exception {
         List<T> list = new ArrayList<>();
