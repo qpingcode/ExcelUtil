@@ -26,6 +26,10 @@ public class ExcelUtil {
     private WriteHandler writeHandler = new WriteHandler();
     private ReadHandler readHandler = new ReadHandler();
 
+    public Config getConfig(){
+        return config;
+    }
+
 
     public <T> void write(Class<T> clazz, String filePath, Collection<T> data) throws FileNotFoundException {
         String fileExt = "xls";
