@@ -71,9 +71,6 @@ public class ComplexUtil {
         config.initWorkbook(ext);
         config.init(clazz);
 
-        //
-        config.setAutoColumn(autoSetColumnWidth);
-
         // 先画复杂表头
         draw(config, complexHeader);
 
@@ -84,6 +81,11 @@ public class ComplexUtil {
         // 输出
         try {
             config.getWorkbook().write(outputStream);
+            if(autoSetColumnWidth){
+                for(int i = 0; i < complexHeader.getWidth(); i++){
+                    config.getWorkbook().getSheetAt(0).autoSizeColumn(i);
+                }
+            }
             config.getWorkbook().close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -130,9 +132,6 @@ public class ComplexUtil {
             }
         }
 
-
-
-
         for(Merge merge: complexHeader.getMergeList()){
 
             org.apache.poi.ss.usermodel.Cell poiCell = sheet.getRow(merge.getBegin().getRow())
@@ -160,17 +159,11 @@ public class ComplexUtil {
             }
         }
 
-        if(config.isAutoColumn()){
-            for(int i = 0; i < complexHeader.getWidth(); i++){
-                sheet.autoSizeColumn(i);
-            }
-        }else{
-            Iterator<Integer> keyItor = complexHeader.getColWidthMap().keySet().iterator();
-            while(keyItor.hasNext()){
-                Integer col = keyItor.next();
-                int width = 256 * complexHeader.getColWidthMap().get(col) + 184;
-                sheet.setColumnWidth(col, width);
-            }
+        Iterator<Integer> keyItor = complexHeader.getColWidthMap().keySet().iterator();
+        while(keyItor.hasNext()){
+            Integer col = keyItor.next();
+            int width = 256 * complexHeader.getColWidthMap().get(col) + 184;
+            sheet.setColumnWidth(col, width);
         }
 
         Iterator<Integer> rowItor = complexHeader.getRowHeightMap().keySet().iterator();
