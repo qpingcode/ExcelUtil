@@ -61,11 +61,17 @@ public class ComplexUtil {
     }
 
     public static <T> void draw(OutputStream outputStream, ExcelDiv complexHeader, Class<T> clazz, List<T> data, String ext, boolean needSimpleTitle){
+        draw(outputStream, complexHeader, clazz, data, ext, needSimpleTitle, false);
+    }
+    public static <T> void draw(OutputStream outputStream, ExcelDiv complexHeader, Class<T> clazz, List<T> data, String ext, boolean needSimpleTitle ,boolean autoSetColumnWidth){
 
 
         Config config = new Config();
         config.initWorkbook(ext);
         config.init(clazz);
+
+        //
+        config.setAutoColumn(autoSetColumnWidth);
 
         // 先画复杂表头
         draw(config, complexHeader);
