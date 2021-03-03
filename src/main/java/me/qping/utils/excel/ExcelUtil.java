@@ -1,5 +1,6 @@
 package me.qping.utils.excel;
 
+import me.qping.utils.excel.common.BeanField;
 import me.qping.utils.excel.common.RowConsumer;
 import me.qping.utils.excel.common.SheetConsumer;
 import me.qping.utils.excel.common.Config;
@@ -55,10 +56,30 @@ public class ExcelUtil {
     }
 
     private <T> void write(Class<T> clazz, OutputStream outputStream, Collection<T> data, String fileExt, boolean forceStringType) {
+        this.write(clazz, outputStream, data, fileExt, true, null);
+    }
+
+    public <T> void write(Class<T> clazz, OutputStream outputStream, Collection<T> data, String fileExt, boolean forceStringType, List<String> ignoreTitles) {
         config.init(clazz);
         config.initWorkbook(fileExt);
-        writeHandler.write(config, data, forceStringType);
+
+        if(ignoreTitles != null && ignoreTitles.size() > 0){
+            for(String title: ignoreTitles){
+                BeanField ignoreField = null;
+                for(BeanField beanField : config.getBeanFields()){
+                    if(beanField.getName() != null && beanField.getName().equals(title)){
+                        ignoreField = beanField;
+                    }
+                }
+
+                if(ignoreField != null){
+                    config.getBeanFields().remove(ignoreField);
+                }
+            }
+        }
+
         try {
+            writeHandler.write(config, data, forceStringType);
             config.getWorkbook().write(outputStream);
             config.getWorkbook().close();
         } catch (IOException e) {
@@ -67,7 +88,7 @@ public class ExcelUtil {
     }
 
     public List<Map<Integer, Object>> read(String filePath) {
-        config.initWorkbook(filePath);
+        config.initWorkbook(filePath, filePath.endsWith("xls") ? "xls" : "xlsx");
         Sheet sheet = config.getWorkbook().getSheetAt(config.getSheetNo());
         return readHandler.transferSheetToMapList(
                 config.getDataRowBeginNumber(),

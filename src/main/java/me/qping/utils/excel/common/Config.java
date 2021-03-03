@@ -8,6 +8,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
@@ -80,6 +81,15 @@ public class Config {
             workbook = new XSSFWorkbook();
         }
         this.fileExt = fileExt;
+    }
+
+    public void initWorkbook(String filePath, String fileExt){
+        try {
+            this.fileExt = fileExt;
+            workbook = WorkbookFactory.create(new FileInputStream(filePath));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void initHeader() {

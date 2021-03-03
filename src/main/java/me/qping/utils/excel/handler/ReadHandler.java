@@ -66,7 +66,10 @@ public class ReadHandler {
 
                 if(cellValue instanceof Double){
                     beanField.getField().set(obj, String.valueOf(cellValue));
-                }else{
+                }else if(cellValue instanceof RichTextString){
+                    RichTextString cellRich = (RichTextString) cellValue;
+                    beanField.getField().set(obj, cellRich.getString());
+                } else{
                     beanField.getField().set(obj, cellValue);
                 }
 
