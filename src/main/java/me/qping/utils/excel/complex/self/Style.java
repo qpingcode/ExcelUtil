@@ -107,8 +107,16 @@ public class Style {
         return style;
     }
 
+    CellStyle cellStyle;
+
     public CellStyle toCellStyle(Workbook workbook){
-        CellStyle cellStyle = workbook.createCellStyle();
+
+        if(cellStyle != null){
+            return cellStyle;
+        }
+
+
+        cellStyle = workbook.createCellStyle();
 
         if(backgroundColor != null){
             cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
