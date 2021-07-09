@@ -14,5 +14,6 @@ public @interface Excel {
     public int index() default -1;
     public String dateformat() default "";
     public int sort() default -1;
+    public int width() default -1;
 
 }

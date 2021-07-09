@@ -3,6 +3,8 @@ package me.qping.utils.excel.handler;
 import lombok.extern.slf4j.Slf4j;
 import me.qping.utils.excel.common.BeanField;
 import me.qping.utils.excel.common.Config;
+import me.qping.utils.excel.complex.self.Style;
+import me.qping.utils.excel.complex.self.StyleFactory;
 import org.apache.poi.ss.usermodel.*;
 
 import java.io.IOException;
@@ -58,6 +60,10 @@ public class WriteHandler {
 
                 Cell cell = headerRow.createCell(headerCol++);
                 cell.setCellValue(beanField.getName());
+
+                if(beanField.getWidth() > -1){
+                    cell.setCellStyle(StyleFactory.create().width(beanField.getWidth()).toCellStyle(workbook));
+                }
             }
             rowIndex++;
         }

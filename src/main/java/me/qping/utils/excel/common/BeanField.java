@@ -19,6 +19,7 @@ public class BeanField implements Comparable<BeanField>{
     String dateformat = null;
     int index = -1;
     int sort = -1;
+    int width;
 
     boolean userDefineIndex = false;
 
@@ -27,6 +28,7 @@ public class BeanField implements Comparable<BeanField>{
         this.name = excel.name();
         this.sort = excel.sort();
         this.field = field;
+        this.width = excel.width();
 
         if(this.index > -1){
             this.userDefineIndex = true;

@@ -25,6 +25,7 @@ import java.awt.Color;
 @Data
 public class StyleFactory {
 
+
     public final static Style BORDER;
     public final static Style WRAP;
     public final static Style FONTBLOD;
@@ -39,6 +40,10 @@ public class StyleFactory {
     public final static Style FONTBLOD_CENTER_BORDER;
     public final static Style FONTBLOD_CENTER_WRAP;
     public final static Style FONTBLOD_CENTER_WRAP_BORDER;
+
+    public static Style create(){
+        return new Style();
+    }
 
     static{
         BORDER = new Style().border(true);
