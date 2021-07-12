@@ -62,7 +62,7 @@ public class WriteHandler {
                 cell.setCellValue(beanField.getName());
 
                 if(beanField.getWidth() > -1){
-                    cell.setCellStyle(StyleFactory.create().width(beanField.getWidth()).toCellStyle(workbook));
+                    sheet.setColumnWidth(headerCol - 1, beanField.getWidth());
                 }
             }
             rowIndex++;
