@@ -49,6 +49,8 @@ public class WriteHandler {
 
         // 输出表头
         if(needTitle){
+
+            CellStyle excelTitleCellStyle = StyleFactory.DEFAULT_TITLE_CELL_STYLE == null ? null : StyleFactory.DEFAULT_TITLE_CELL_STYLE.toCellStyle(workbook);
             Row headerRow = sheet.createRow(rowIndex);
 
             int headerCol = 0;
@@ -60,6 +62,9 @@ public class WriteHandler {
 
                 Cell cell = headerRow.createCell(headerCol++);
                 cell.setCellValue(beanField.getName());
+                if(excelTitleCellStyle != null){
+                    cell.setCellStyle(excelTitleCellStyle);
+                }
 
                 if(beanField.getWidth() > -1){
                     sheet.setColumnWidth(headerCol - 1, beanField.getWidth());
@@ -68,6 +73,7 @@ public class WriteHandler {
             rowIndex++;
         }
 
+        CellStyle excelCellStyle = StyleFactory.DEFAULT_DATA_CELL_STYLE == null ? null : StyleFactory.DEFAULT_DATA_CELL_STYLE.toCellStyle(workbook);
         for(T rowData : data){
             Row row = sheet.createRow(rowIndex);
 
@@ -92,6 +98,9 @@ public class WriteHandler {
                     }
                     Cell cell = row.createCell(colIndex);
                     cell.setCellValue(value);
+                    if(excelCellStyle != null){
+                        cell.setCellStyle(excelCellStyle);
+                    }
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }

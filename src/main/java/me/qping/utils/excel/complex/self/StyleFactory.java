@@ -25,7 +25,9 @@ import java.awt.Color;
 @Data
 public class StyleFactory {
 
+    public final static Style DEFAULT_TITLE_CELL_STYLE = null;
 
+    public final static Style DEFAULT_DATA_CELL_STYLE = null;
     public final static Style BORDER;
     public final static Style WRAP;
     public final static Style FONTBLOD;
